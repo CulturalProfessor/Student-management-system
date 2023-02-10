@@ -30,9 +30,9 @@ const AllUsers = () => {
         getAllUsers();
     }, []);
 
-    const deleteUserData = async (_id) => {
-      // console.log(_id);
-        await deleteUser(_id);
+    const deleteUserData = async (id) => {
+        console.log(id);
+        await deleteUser(id);
         getAllUsers();
     }
 

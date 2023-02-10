@@ -1,8 +1,9 @@
 import Userdb from "../models/studentSchema.js";
+import url from "url";
 
 // create and save new user
 export const create = (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*");
 
   // validate request
   if (!req.body) {
@@ -12,26 +13,26 @@ export const create = (req, res) => {
 
   // new user
   const user = new Userdb({
-    _id:req.body.id,
+    _id: req.body.id,
     firstName: req.body.firstName,
     middleName: req.body.middleName,
     lastName: req.body.lastName,
     class: req.body.class,
     division: req.body.division,
-    rollNumber:req.body.rollNumber,
+    rollNumber: req.body.rollNumber,
     addressLine1: req.body.addressLine1,
     addressLine2: req.body.addressLine2,
     landmark: req.body.landmark,
     city: req.body.city,
     pincode: req.body.pincode,
-    studentsProfilePicture:req.body.studentsProfilePicture
+    studentsProfilePicture: req.body.studentsProfilePicture,
   });
-
+  console.log(req.body);
   // save user in the database
   user
     .save(user)
     .then((data) => {
-      res.send(data)
+      res.send(data);
       // res.status(200).json({
       //   message:"user added"
       // })
@@ -47,7 +48,7 @@ export const create = (req, res) => {
 
 // retrieve and return all users/ retrive and return a single user
 export const find = (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*");
 
   if (req.query.id) {
     const id = req.query.id;
@@ -69,19 +70,17 @@ export const find = (req, res) => {
         res.send(user);
       })
       .catch((err) => {
-        res
-          .status(500)
-          .send({
-            message:
-              err.message || "Error Occurred while retriving user information",
-          });
+        res.status(500).send({
+          message:
+            err.message || "Error Occurred while retriving user information",
+        });
       });
   }
 };
 
 // Update a new idetified user by user id
 export const update = (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*");
 
   if (!req.body) {
     return res.status(400).send({ message: "Data to update can not be empty" });
@@ -91,11 +90,9 @@ export const update = (req, res) => {
   Userdb.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then((data) => {
       if (!data) {
-        res
-          .status(404)
-          .send({
-            message: `Cannot Update user with ${id}. Maybe user not found!`,
-          });
+        res.status(404).send({
+          message: `Cannot Update user with ${id}. Maybe user not found!`,
+        });
       } else {
         res.send(data);
       }
@@ -106,15 +103,13 @@ export const update = (req, res) => {
 };
 
 // Delete a user with specified user id in the request
-export const Delete =  (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-
-  const id = req.params.id;
-  const user=req.params;
-  console.log(id);
-
-  Userdb.findOneAndDelete(id)
+export const Delete = (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  const id = req.query.id;
+  console.log(id)
+  Userdb.findOneAndDelete({_id: id })
     .then((data) => {
+      console.log(data);
       if (!data) {
         res
           .status(404)

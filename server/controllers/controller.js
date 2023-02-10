@@ -12,6 +12,7 @@ export const create = (req, res) => {
 
   // new user
   const user = new Userdb({
+    _id:req.body.id,
     firstName: req.body.firstName,
     middleName: req.body.middleName,
     lastName: req.body.lastName,
@@ -109,13 +110,15 @@ export const Delete =  (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
 
   const id = req.params.id;
+  const user=req.params;
+  console.log(id);
 
-  Userdb.findByIdAndDelete(id)
+  Userdb.findOneAndDelete(id)
     .then((data) => {
       if (!data) {
         res
           .status(404)
-          .send({ message: `Cannot Delete with id ${id}. Maybe id is wrong` });
+          .send({ message: `Cannot Delete with id. Maybe id is wrong` });
       } else {
         res.send({
           message: "User was deleted successfully!",

@@ -30,8 +30,9 @@ const AllUsers = () => {
         getAllUsers();
     }, []);
 
-    const deleteUserData = async (id) => {
-        await deleteUser(id);
+    const deleteUserData = async (_id) => {
+      // console.log(_id);
+        await deleteUser(_id);
         getAllUsers();
     }
 
@@ -52,9 +53,9 @@ const AllUsers = () => {
           </THead>
         </TableHead>
         <TableBody>
-          {users.map((user) => (
-            <TRow key={user.id}>
-              <TableCell>{user.id}</TableCell>
+          {users.map((user,index) => (
+            <TRow>
+              <TableCell>{index+1}</TableCell>
               <TableCell>{user.firstName}</TableCell>
               <TableCell>{user.class}</TableCell>
               <TableCell>{user.rollNumber}</TableCell>
@@ -71,7 +72,7 @@ const AllUsers = () => {
                 <Button
                   color="secondary"
                   variant="contained"
-                  onClick={() => deleteUserData(user.id)}
+                  onClick={() => deleteUserData(user._id)}
                 >
                   Delete
                 </Button>
